@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ app_name }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        #logo {
+            width: 80%;
+            margin-top: 30px;
+        }
+
+        #verifyBtn {
+            width: 80%;
+            background-color: red;
+            color: white;
+            font-size: 24px;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 0;
+            margin-top: 30px;
+            cursor: pointer;
+        }
+
+        #panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: white;
+            border-radius: 15px 15px 0 0;
+            transition: height 1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 6rem;
+        }
+    </style>
+    <script>
+        let panelOpen = false;
+        let serialNumber;
+
+        const openPanel = () => {
+            document.getElementById('panel').style.height = '30%';
+            document.getElementById('overlay').style.display = 'block';
+            panelOpen = true;
+        };
+
+        const closePanel = () => {
+            document.getElementById('panel').style.height = '0';
+            document.getElementById('overlay').style.display = 'none';
+            panelOpen = false;
+        };
+
+        const showMessage = (message, color) => {
+            const elem = document.getElementById('message');
+            elem.innerText = message;
+            elem.style.color = color;
+        };
+
+        const onTagRead = (event) => {
+            serialNumber = event.serialNumber;
+            closePanel();
+            if (serialNumber === '{{ uid }}') {
+                showMessage("✓", "green");
+            } else {
+                showMessage("✗", "red");
+            }
+        };
+
+        const onButtonClick = async () => {
+            if (!panelOpen) {
+                openPanel();
+                try {
+                    const reader = new NDEFReader();
+                    await reader.scan();
+                    reader.onreading = onTagRead;
+                } catch (error) {
+                    closePanel();
+                    showMessage("NFC not supported or permission denied", "red");
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+<img id="logo" src="{{ logo_url }}" alt="Logo">
+<h1 style="font-size: 1.6rem;">{{ app_name }}</h1>
+<div style="font-size: 1rem; margin: 1rem; text-align: center">Welcome to your BoltRing. Here you
+    can check if your device is an original BoltRing
+</div>
+<button id="verifyBtn" onclick="onButtonClick()">Verify Now</button>
+<div id="overlay" onclick="closePanel()"></div>
+<div id="panel">
+    <span style="position: absolute; top: 5px; right: 5px; cursor: pointer;" onclick="closePanel()">×</span>
+    <h3>Scan your BoltRing now</h3>
+    <span style="font-size: 48px;">&circlearrowright;</span>
+</div>
+<div id="message"></div>
+</body>
+</html>
