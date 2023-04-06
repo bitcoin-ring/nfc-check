@@ -11,12 +11,17 @@ packages = [{include = "nfc_check"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+blacksheep = "^1.2.12"
+uvicorn = "^0.21.1"
+pydantic = "^1.10.7"
+python-dotenv = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.2"
 black = "^23.3.0"
 poethepoet = "^0.19.0"
+pytest-asyncio = "^0.21.0"
 
 
 [tool.poe.tasks]
