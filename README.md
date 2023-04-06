@@ -1,1 +1,1 @@
-# nfc-check - Web application for checking NFC device authenticity
+# nfc-check - Web-App for checking NFC device authenticity
