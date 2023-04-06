@@ -15,6 +15,7 @@ blacksheep = "^1.2.12"
 uvicorn = "^0.21.1"
 pydantic = "^1.10.7"
 python-dotenv = "^1.0.0"
+cryptography = "^40.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
