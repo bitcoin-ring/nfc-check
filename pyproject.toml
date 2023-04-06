@@ -32,7 +32,7 @@ pytest-cov = "^4.0.0"
 format = { cmd = "poetry run black .", help = "Code style formating with black" }
 lf = { cmd = "poetry run python -m tests.lf", help = "Convert line endings to lf"}
 test = { cmd = "poetry run pytest --cov=nfc_check --cov-fail-under=100", help = "Run tests" }
-run = { cmd = "poetry run uvicorn nfc_check.server:app --port 44777 --reload"}
+run = { cmd = "poetry run uvicorn nfc_check.server:app --port 8000 --reload"}
 all = ["format", "lf", "test"]
 
 
