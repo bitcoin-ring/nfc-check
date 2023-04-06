@@ -22,12 +22,15 @@ pytest = "^7.2.2"
 black = "^23.3.0"
 poethepoet = "^0.19.0"
 pytest-asyncio = "^0.21.0"
+coverage = "^7.2.2"
+pytest-cov = "^4.0.0"
 
 
 [tool.poe.tasks]
 format = { cmd = "poetry run black .", help = "Code style formating with black" }
 lf = { cmd = "poetry run python -m tests.lf", help = "Convert line endings to lf"}
-test = { cmd = "poetry run pytest", help = "Run tests" }
+test = { cmd = "poetry run pytest --cov=nfc_check --cov-fail-under=100", help = "Run tests" }
+run = { cmd = "poetry run uvicorn nfc_check.server:app --port 44777 --reload"}
 all = ["format", "lf", "test"]
 
 

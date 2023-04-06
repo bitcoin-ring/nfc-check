@@ -20,4 +20,4 @@ jobs:
         run: poetry install
 
       - name: Run Tests
-        run: poetry run pytest
+        run: poetry run pytest --cov=nfc_check --cov-report=xml -q tests
